@@ -1,0 +1,33 @@
+El objetivo de Modules: es contar con los controladores, esquemas de rutas y servicios
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Descarga:
+
+yarn add @faker-js/faker @prisma/client fastify fastify-jwt fastify-swagger fastify-zod tap ts-mock-imports zod zod-to-json-schema
+
+yarn add -D @types/node @types/tap sinon ts-node ts-node-dev typescript
+
+npx tsc --init
+
+Prisma:
+npx prisma init --datasource-provider postgresql
