@@ -12,21 +12,34 @@ datasource db {
 
 model User{
   id Int @id @default(autoincrement())
-  email String
+  email String @unique
   name String?
   password String
   salt String
-  Products Product[]
+  Posts Post[]
+  Comments Comment[]
 }
 
-model Product{
+model Post{
   id Int @id @default(autoincrement())
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
   title String @db.VarChar(255)
   content String?
-  price Float
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
   owner User @relation( fields: [ownerId], references: [id] )
   ownerId Int @map(name: "ownerid")
+  Comments Comment[]
+}
 
+model Comment{
+  id Int @id @default( autoincrement() )
+  content String @db.VarChar(255) 
+  likes Int?
+  img String? @db.VarChar(255)
+  createAt DateTime @default( now() )
+  updateAt DateTime @updatedAt
+  post Post @relation( fields: [postId], references: [id] )
+  postId Int @map(name: "postid")
+  owner User @relation( fields: [ownerId], references: [id] )
+  ownerId Int @map(name: "ownerid")
 }

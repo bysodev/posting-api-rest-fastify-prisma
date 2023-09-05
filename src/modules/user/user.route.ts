@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { registerUser } from "./user.controller";
+import { registerUser, loginHandler, getUsersHander, getPostsByUser, getPostsByIdUser } from "./user.controller";
 import { $ref } from "./user.schema";
 
 async function userRouter(server: FastifyInstance){ // El objeto necesario para crear las rutas y contorlar las solicitudes de estas rutas
@@ -9,8 +9,43 @@ async function userRouter(server: FastifyInstance){ // El objeto necesario para 
             response: {
                 201: $ref('createUserResponseSchema')
             }
+        
         }
     } ,registerUser)
+
+    server.post('/login', {
+        schema: {
+            body: $ref('loginSchema'),
+            response: {
+                201: $ref('loginResponseSchema')
+            }
+        }
+    }, loginHandler )
+
+    server.get('/', {
+        preHandler: server.authenticate
+    }, getUsersHander);
+
+    server.get('/posts', { // Es necesario la autenticación para buscar lo spost por el id
+        preHandler: server.authenticate,
+        schema: {
+            response: {
+                200: $ref('responsePostByUserSchema')
+            }
+        }
+    }, getPostsByUser);
+
+    server.get('/posts/:iduser', { 
+        schema: {
+            params: {
+                iduser: {type: 'number'}
+            },
+            response: {
+                200: $ref('responsePostByUserSchema')
+            }
+        }
+    }, getPostsByIdUser);
+
 }
 
 export default userRouter;

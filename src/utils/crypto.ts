@@ -22,3 +22,19 @@ export function hashPassword(password: String){
 // APUNTES:
 // crypto.randomBytes(16): Genera una secuencia de bytes aleatorios de longitud 16. Los bytes aleatorios se generan utilizando un generador criptográficamente seguro. La longitud de 16 bytes (128 bits) se utiliza comúnmente para generar una sal segura.
 // .toString('hex'): Luego de obtener los bytes aleatorios, se llama al método toString() con el argumento 'hex' para convertir los bytes en una representación hexadecimal legible como una cadena de caracteres.
+
+export function verifyPassword({
+    candidatePassword,
+    salt,
+    hash
+}: { 
+    candidatePassword: string,
+    salt: string,
+    hash: string
+}){
+
+    const candidateHash = crypto.pbkdf2Sync(candidatePassword, salt, 1000, 64, "sha512").toString('hex');
+
+    return candidateHash === hash
+
+}

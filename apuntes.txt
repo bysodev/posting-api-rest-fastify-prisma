@@ -31,3 +31,9 @@ npx tsc --init
 
 Prisma:
 npx prisma init --datasource-provider postgresql
+
+Migrate
+prisma migrate dev --name init
+
+Con cada cambio a la base es importante:
+npx prisma generate
